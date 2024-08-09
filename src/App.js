@@ -6,7 +6,6 @@ const App = () => {
   const [countries, setCountries] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [error, setError] = useState(null);
-  const [filtered, setFiltered] = useState([]);
 
   useEffect(() => {
     const fetchCountries = async () => {
@@ -23,13 +22,6 @@ const App = () => {
     fetchCountries();
   }, []);
 
-  useEffect(() => {
-    const data = countries.filter((country) =>
-      country.name.toLowerCase().includes(searchTerm.toLowerCase())
-    );
-    setFiltered(data);
-  }, [searchTerm]);
-
   const handleSearch = (event) => {
     setSearchTerm(event.target.value);
   };
@@ -38,12 +30,10 @@ const App = () => {
     country.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  console.log(filteredCountries);
-
   return (
     <div className="App">
       <h1>Country Flags</h1>
-      {error && <p>{error}</p>}
+      {error && <p className="error">{error}</p>}
       <input
         type="text"
         placeholder="Search for countries..."
@@ -51,12 +41,16 @@ const App = () => {
         onChange={handleSearch}
       />
       <div className="flag-container">
-        {filteredCountries.map((country) => (
-          <div key={country.name} className="countryCard">
-            <img src={country.flag} alt={`${country.name} flag`} />
-            <p>{country.name}</p>
-          </div>
-        ))}
+        {filteredCountries.length > 0 ? (
+          filteredCountries.map((country) => (
+            <div key={country.code} className="countryCard">
+              <img src={country.flag} alt={`${country.name} flag`} />
+              <p>{country.name}</p>
+            </div>
+          ))
+        ) : (
+          <p>No countries found</p>
+        )}
       </div>
     </div>
   );
