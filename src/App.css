@@ -8,19 +8,19 @@
   justify-content: center;
 }
 
-.flag-item {
+.countryCard {
   margin: 10px;
   border: 1px solid #ccc;
   padding: 10px;
   border-radius: 4px;
 }
 
-.flag-item img {
+.countryCard img {
   width: 100px;
   height: auto;
 }
 
-.flag-item p {
+.countryCard p {
   margin-top: 10px;
   font-size: 14px;
 }
