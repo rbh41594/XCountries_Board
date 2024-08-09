@@ -7,11 +7,12 @@ const App = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [error, setError] = useState(null);
 
+  //load countries on mount
   useEffect(() => {
     const fetchCountries = async () => {
       try {
         const response = await axios.get(
-          "https://xcountries-backend.azurewebsites.net/all"
+          "https://restcountries.com/v3.1/all" 
         );
         setCountries(response.data);
       } catch (err) {
@@ -22,12 +23,8 @@ const App = () => {
     fetchCountries();
   }, []);
 
-  const handleSearch = (event) => {
-    setSearchTerm(event.target.value);
-  };
-
   const filteredCountries = countries.filter((country) =>
-    country.name.toLowerCase().includes(searchTerm.toLowerCase())
+    country.name.common.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   return (
@@ -38,14 +35,14 @@ const App = () => {
         type="text"
         placeholder="Search for countries..."
         value={searchTerm}
-        onChange={handleSearch}
+        onChange={(e) => setSearchTerm(e.target.value)}
       />
       <div className="flag-container">
         {filteredCountries.length > 0 ? (
           filteredCountries.map((country) => (
-            <div key={country.code} className="countryCard">
-              <img src={country.flag} alt={`${country.name} flag`} />
-              <p>{country.name}</p>
+            <div key={country.cca3} className="countryCard">
+              <img src={country.flags.svg} alt={`${country.name.common} flag`} />
+              <p>{country.name.common}</p>
             </div>
           ))
         ) : (
